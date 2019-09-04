@@ -3,7 +3,7 @@ package net.vanabel.vanabelutilities.validator;
 /**
  * A class that holds a collection of methods that are used for validating various cases regarding String-like objects.
  */
-public class StringValidator {
+public class StringValidator extends ObjectValidator {
 
     private final static String DEFAULT_EMPTY_CHAR_SEQ_MESSAGE = "This character sequence cannot be empty or null!";
     private final static String DEFAULT_NULL_STR_MESSAGE = "This string cannot be null!";
@@ -16,34 +16,34 @@ public class StringValidator {
     /**
      * Quickly checks if a character sequence object is either empty or null.
      * If the object is either empty or null, an exception is thrown.
-     * @param object The character sequence object to check.
+     * @param charSequenceObj The character sequence object to check.
      * @param <T> The character sequence type.
      * @return The character sequence if it is not empty nor null.
      * @throws NullPointerException When the sequence is null.
      * @throws IllegalArgumentException When the sequence is empty.
      */
-    public static <T extends CharSequence> T isNotEmpty(T object) {
-        return isNotEmpty(object, DEFAULT_EMPTY_CHAR_SEQ_MESSAGE);
+    public static <T extends CharSequence> T isNotEmpty(T charSequenceObj) {
+        return isNotEmpty(charSequenceObj, DEFAULT_EMPTY_CHAR_SEQ_MESSAGE);
     }
 
     /**
      * Quickly checks if a character sequence object is either empty or null.
      * If the object is either empty or null, an exception is thrown.
-     * @param object The character sequence object to check.
+     * @param charSequenceObj The character sequence object to check.
      * @param message The exception message if the character sequence is empty or null.
      * @param <T> The character sequence type.
      * @return The character sequence if it is not empty nor null.
      * @throws NullPointerException When the sequence is null.
      * @throws IllegalArgumentException When the sequence is empty.
      */
-    public static <T extends CharSequence> T isNotEmpty(T object, String message) {
-        if (object == null) {
+    public static <T extends CharSequence> T isNotEmpty(T charSequenceObj, String message) {
+        if (charSequenceObj == null) {
             throw new NullPointerException(message);
         }
-        if (object.length() == 0) {
+        if (charSequenceObj.length() == 0) {
             throw new IllegalArgumentException(message);
         }
-        return object;
+        return charSequenceObj;
     }
 
 
@@ -62,12 +62,12 @@ public class StringValidator {
     }
 
     /**
-     * Returns a default String object "{@code defaultString}" if a null String object "{@code string}" is passed through.
-     * The default String object cannot be null!
+     * Returns the first String if it is not null, the second String otherwise.
+     * The second String object cannot be null!
      * @param string The possibly null String object
-     * @param defaultString The non-null String object to use if {@code string} is null.
-     * @return The {@code string} if it is not null, {@code defaultString} otherwise
-     * @throws NullPointerException When the {@code defaultString} parameter is null
+     * @param defaultString The non-null String object to use if the first String is null
+     * @return The initial String if it is not null, the second String otherwise
+     * @throws NullPointerException When the second String object is null
      */
     public static String defaultStringIfNull(final String string, final String defaultString) {
         if (defaultString == null) {

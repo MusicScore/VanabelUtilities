@@ -4,6 +4,7 @@ import net.vanabel.vanabelutilities.validator.NumberValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * A class that holds a collection of methods that are used for manipulating strings in various ways.
@@ -325,10 +326,24 @@ public class StringUtils {
     //   Title-case methods
     //////////////////////////////////////
 
+    /**
+     * Converts a String to a strict title format. Automatically trims the String.
+     * If there are any extra capitalized characters in any given word, those characters will be lowercased.
+     * @param str The String to format like a title
+     * @return The String in proper title format
+     * @see #toTitleCase(String, boolean)
+     */
     public static String toTitleCase(String str) {
         return toTitleCase(str, true);
     }
 
+    /**
+     * Converts a String to title format. Automatically trims the String.
+     * @param str The String to format like a title
+     * @param strict Whether to convert every character to lowercase if it is not the first character in any given word
+     * @return The String in title format
+     * @see #toTitleCase(String)
+     */
     public static String toTitleCase(String str, boolean strict) {
         str = str.trim();
         if (str.isEmpty()) {
@@ -366,29 +381,57 @@ public class StringUtils {
     //   Substring methods
     //////////////////////////////////////
 
+    /**
+     * Returns whatever of the first String is after the first instance of the specified second String.
+     * If the second String does not exist in the first String, the first String is returned.
+     * @param str The String to truncate
+     * @param after The String the truncation is based off of
+     * @return A substring of the first String, which contains every character after the first instance of the second String
+     */
     public static String after(String str, String after) {
-        if (contains(str, after, true)) {
+        if (!contains(str, after, true)) {
             return str;
         }
         return str.substring(str.indexOf(after) + after.length());
     }
 
+    /**
+     * Returns whatever of the first String is after the last instance of the specified second String.
+     * If the second String does not exist in the first String, the first String is returned.
+     * @param str The String to truncate
+     * @param after The String the truncation is based off of
+     * @return A substring of the first String, which contains every character after the last instance of the second String
+     */
     public static String afterLast(String str, String after) {
-        if (contains(str, after, true)) {
+        if (!contains(str, after, true)) {
             return str;
         }
         return str.substring(str.lastIndexOf(after) + after.length());
     }
 
+    /**
+     * Returns whatever of the first String is before the first instance of the specified second String.
+     * If the second String does not exist in the first String, the first String is returned.
+     * @param str The String to truncate
+     * @param before The String the truncation is based off of
+     * @return A substring of the first String, which contains every character before the first instance of the second String
+     */
     public static String before(String str, String before) {
-        if (contains(str, before, true)) {
+        if (!contains(str, before, true)) {
             return str;
         }
         return str.substring(0, str.indexOf(before));
     }
 
+    /**
+     * Returns whatever of the first String is before the last instance of the specified second String.
+     * If the second String does not exist in the first String, the first String is returned.
+     * @param str The String to truncate
+     * @param before The String the truncation is based off of
+     * @return A substring of the first String, which contains every character before the last instance of the second String
+     */
     public static String beforeLast(String str, String before) {
-        if (contains(str, before, true)) {
+        if (!contains(str, before, true)) {
             return str;
         }
         return str.substring(0, str.lastIndexOf(before));
@@ -399,16 +442,35 @@ public class StringUtils {
     //   String splitting methods
     //////////////////////////////////////
 
-    public static StringSplitDataHolder splitString(String str) {
+    /**
+     * Splits a String based on each space character.
+     * @param str The String to split
+     * @return A {@link StringPartsData} containing a list of Strings
+     * @see #splitString(String, char)
+     */
+    public static StringPartsData splitString(String str) {
         return splitString(str, ' ');
     }
 
-    public static StringSplitDataHolder splitString(String str, int maxParts) {
+    /**
+     * Splits a String based on each space character, up to a specified amount of parts.
+     * @param str The String to split
+     * @param maxParts The maximum amount of parts the split String can have
+     * @return A {@link StringPartsData} containing a list of Strings
+     * @see #splitString(String, char, int)
+     */
+    public static StringPartsData splitString(String str, int maxParts) {
         return splitString(str, ' ', maxParts);
     }
 
-    public static StringSplitDataHolder splitString(String str, char splitter) {
-        StringSplitDataHolder output = new StringSplitDataHolder();
+    /**
+     * Splits a String based on a specified character.
+     * @param str The String to split
+     * @param splitter The character to use when splitting the String
+     * @return A {@link StringPartsData} containing a list of Strings
+     */
+    public static StringPartsData splitString(String str, char splitter) {
+        StringPartsData output = new StringPartsData();
         int s = 0;
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == splitter) {
@@ -420,10 +482,17 @@ public class StringUtils {
         return output;
     }
 
-    public static StringSplitDataHolder splitString(String str, char splitter, int maxParts) {
+    /**
+     * Splits a String based on a specified character, up to a specified amount of parts.
+     * @param str The String to split
+     * @param splitter The character to use when splitting the String
+     * @param maxParts The maximum amount of parts the split String can have
+     * @return A {@link StringPartsData} containing a list of Strings
+     */
+    public static StringPartsData splitString(String str, char splitter, int maxParts) {
         NumberValidator.isPositive(maxParts);
 
-        StringSplitDataHolder output = new StringSplitDataHolder();
+        StringPartsData output = new StringPartsData();
         int s = 0;
         for (int i = 0; i < str.length(); i++) {
             if (output.size() + 1 >= maxParts) {
@@ -438,6 +507,11 @@ public class StringUtils {
         return output;
     }
 
+    /**
+     * Returns a String as a List of Character objects.
+     * @param str The String to convert into a List of Character objects
+     * @return A List of Character objects that consists of every character in the original String
+     */
     public static List<Character> toCharList(String str) {
         List<Character> output = new ArrayList<>();
         for (char character : str.toCharArray()) {
@@ -451,6 +525,14 @@ public class StringUtils {
     //   Misc. string methods
     //////////////////////////////////////
 
+    /**
+     * Returns whether the first String contains the second String.
+     * <b>NOTE:</b> If you want to perform a similar operation with case sensitivity, you can also just use {@link String#contains(CharSequence)}.
+     * @param str The first String
+     * @param searchFor The String that's being searched for in the first String
+     * @param caseSensitive Whether the search should be case sensitive
+     * @return True if the second String can be found in the first String, false otherwise
+     */
     public static boolean contains(String str, String searchFor, boolean caseSensitive) {
         if (!caseSensitive) {
             str = str.toLowerCase();
@@ -459,7 +541,13 @@ public class StringUtils {
         return str.contains(searchFor);
     }
 
+    /**
+     * Returns whether the String has any whitespace in it.
+     * @param str The String to search in
+     * @return True if the String has any whitespace characters in it, false otherwise
+     */
     public static boolean hasWhitespace(String str) {
-        return str.isEmpty() || str.trim().length() != str.length();
+        Pattern pattern = Pattern.compile("\\s");
+        return str.isEmpty() || pattern.matcher(str).find();
     }
 }
