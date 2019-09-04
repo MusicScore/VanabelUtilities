@@ -7,6 +7,35 @@ public class NumberValidator {
 
     private static String DEFAULT_NON_POSITIVE_MSG = "This number is not positive!";
     private static String DEFAULT_NEGATIVE_MSG = "This number cannot be negative!";
+    private static String[] DEFAULT_NOT_IN_INTERVAL_MSG = {
+            "This number is not between ",
+            " and "
+    };
+    private static String DEFAULT_MALFORMED_INTERVAL_MSG = "The right end of the range must not be less than the left end!";
+
+    private static String defMalformedIntervalMsgConstr(byte i, byte f) {
+        return DEFAULT_NOT_IN_INTERVAL_MSG[0] + i + DEFAULT_NOT_IN_INTERVAL_MSG[1] + f;
+    }
+
+    private static String defMalformedIntervalMsgConstr(short i, short f) {
+        return DEFAULT_NOT_IN_INTERVAL_MSG[0] + i + DEFAULT_NOT_IN_INTERVAL_MSG[1] + f;
+    }
+
+    private static String defMalformedIntervalMsgConstr(int i, int f) {
+        return DEFAULT_NOT_IN_INTERVAL_MSG[0] + i + DEFAULT_NOT_IN_INTERVAL_MSG[1] + f;
+    }
+
+    private static String defMalformedIntervalMsgConstr(long i, long f) {
+        return DEFAULT_NOT_IN_INTERVAL_MSG[0] + i + DEFAULT_NOT_IN_INTERVAL_MSG[1] + f;
+    }
+
+    private static String defMalformedIntervalMsgConstr(double i, double f) {
+        return DEFAULT_NOT_IN_INTERVAL_MSG[0] + i + DEFAULT_NOT_IN_INTERVAL_MSG[1] + f;
+    }
+
+    private static String defMalformedIntervalMsgConstr(float i, float f) {
+        return DEFAULT_NOT_IN_INTERVAL_MSG[0] + i + DEFAULT_NOT_IN_INTERVAL_MSG[1] + f;
+    }
 
 
     ////////////////////////////////////////
@@ -338,6 +367,215 @@ public class NumberValidator {
     public static float nonNegative(float fNum, String message) {
         if (fNum < 0) {
             throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
+        }
+        return fNum;
+    }
+
+
+    ////////////////////////////////////////
+    //   Number is in interval checks
+    //////////////////////////////////////
+
+    /**
+     * Quickly checks if the byte is in the specified interval, inclusively.
+     * If the byte is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param bNum The byte to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @return The byte, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the byte is not in the interval
+     * @see #isInInterval(byte, byte, byte, String)
+     */
+    public static byte isInInterval(byte bNum, byte left, byte right) {
+        return isInInterval(bNum, left, right, null);
+    }
+
+    /**
+     * Quickly checks if the short is in the specified interval, inclusively.
+     * If the short is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param sNum The short to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @return The short, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the short is not in the interval
+     * @see #isInInterval(short, short, short, String)
+     */
+    public static short isInInterval(short sNum, short left, short right) {
+        return isInInterval(sNum, left, right, null);
+    }
+
+    /**
+     * Quickly checks if the integer is in the specified interval, inclusively.
+     * If the integer is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param iNum The integer to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @return The integer, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the integer is not in the interval
+     * @see #isInInterval(int, int, int, String)
+     */
+    public static int isInInterval(int iNum, int left, int right) {
+        return isInInterval(iNum, left, right, null);
+    }
+
+    /**
+     * Quickly checks if the long is in the specified interval, inclusively.
+     * If the long is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param lNum The long to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @return The long, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the long is not in the interval
+     * @see #isInInterval(long, long, long, String)
+     */
+    public static long isInInterval(long lNum, long left, long right) {
+        return isInInterval(lNum, left, right, null);
+    }
+
+    /**
+     * Quickly checks if the double is in the specified interval, inclusively.
+     * If the double is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param dNum The double to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @return The double, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the double is not in the interval
+     * @see #isInInterval(double, double, double, String)
+     */
+    public static double isInInterval(double dNum, double left, double right) {
+        return isInInterval(dNum, left, right, null);
+    }
+
+    /**
+     * Quickly checks if the float is in the specified interval, inclusively.
+     * If the float is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param fNum The float to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @return The float, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the float is not in the interval
+     * @see #isInInterval(float, float, float, String)
+     */
+    public static float isInInterval(float fNum, float left, float right) {
+        return isInInterval(fNum, left, right, null);
+    }
+
+    /**
+     * Quickly checks if the byte is in the specified interval, inclusively.
+     * If the byte is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param bNum The byte to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @param message The exception message to use if the byte is not in the interval
+     * @return The byte, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the byte is not in the interval
+     */
+    public static byte isInInterval(byte bNum, byte left, byte right, String message) {
+        if (right < left) {
+            throw new IllegalArgumentException(DEFAULT_MALFORMED_INTERVAL_MSG);
+        }
+        if (bNum < left || bNum > right) {
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, defMalformedIntervalMsgConstr(left, right)));
+        }
+        return bNum;
+    }
+
+    /**
+     * Quickly checks if the short is in the specified interval, inclusively.
+     * If the short is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param sNum The short to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @param message The exception message to use if the short is not in the interval
+     * @return The short, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the short is not in the interval
+     */
+    public static short isInInterval(short sNum, short left, short right, String message) {
+        if (right < left) {
+            throw new IllegalArgumentException(DEFAULT_MALFORMED_INTERVAL_MSG);
+        }
+        if (sNum < left || sNum > right) {
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, defMalformedIntervalMsgConstr(left, right)));
+        }
+        return sNum;
+    }
+
+    /**
+     * Quickly checks if the integer is in the specified interval, inclusively.
+     * If the integer is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param iNum The integer to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @param message The exception message to use if the integer is not in the interval
+     * @return The integer, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the integer is not in the interval
+     */
+    public static int isInInterval(int iNum, int left, int right, String message) {
+        if (right < left) {
+            throw new IllegalArgumentException(DEFAULT_MALFORMED_INTERVAL_MSG);
+        }
+        if (iNum < left || iNum > right) {
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, defMalformedIntervalMsgConstr(left, right)));
+        }
+        return iNum;
+    }
+
+    /**
+     * Quickly checks if the long is in the specified interval, inclusively.
+     * If the long is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param lNum The long to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @param message The exception message to use if the long is not in the interval
+     * @return The long, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the long is not in the interval
+     */
+    public static long isInInterval(long lNum, long left, long right, String message) {
+        if (right < left) {
+            throw new IllegalArgumentException(DEFAULT_MALFORMED_INTERVAL_MSG);
+        }
+        if (lNum < left || lNum > right) {
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, defMalformedIntervalMsgConstr(left, right)));
+        }
+        return lNum;
+    }
+
+    /**
+     * Quickly checks if the double is in the specified interval, inclusively.
+     * If the double is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param dNum The double to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @param message The exception message to use if the double is not in the interval
+     * @return The double, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the double is not in the interval
+     */
+    public static double isInInterval(double dNum, double left, double right, String message) {
+        if (right < left) {
+            throw new IllegalArgumentException(DEFAULT_MALFORMED_INTERVAL_MSG);
+        }
+        if (dNum < left || dNum > right) {
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, defMalformedIntervalMsgConstr(left, right)));
+        }
+        return dNum;
+    }
+
+    /**
+     * Quickly checks if the float is in the specified interval, inclusively.
+     * If the float is not in the interval or if the interval is malformed, an exception is thrown.
+     * @param fNum The float to check
+     * @param left The left end of the interval
+     * @param right The right end of the interval
+     * @param message The exception message to use if the float is not in the interval
+     * @return The float, provided that it's in the interval
+     * @throws IllegalArgumentException When the interval is malformed or if the float is not in the interval
+     */
+    public static float isInInterval(float fNum, float left, float right, String message) {
+        if (right < left) {
+            throw new IllegalArgumentException(DEFAULT_MALFORMED_INTERVAL_MSG);
+        }
+        if (fNum < left || fNum > right) {
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, defMalformedIntervalMsgConstr(left, right)));
         }
         return fNum;
     }
