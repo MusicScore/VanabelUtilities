@@ -22,7 +22,7 @@ public class NumberValidator {
      * @see #isPositive(byte, String)
      */
     public static byte isPositive(byte bNum) {
-        return isPositive(bNum, DEFAULT_NON_POSITIVE_MSG);
+        return isPositive(bNum, null);
     }
 
     /**
@@ -34,7 +34,7 @@ public class NumberValidator {
      * @see #isPositive(short, String)
      */
     public static short isPositive(short sNum) {
-        return isPositive(sNum, DEFAULT_NON_POSITIVE_MSG);
+        return isPositive(sNum, null);
     }
 
     /**
@@ -46,7 +46,7 @@ public class NumberValidator {
      * @see #isPositive(int, String)
      */
     public static int isPositive(int iNum) {
-        return isPositive(iNum, DEFAULT_NON_POSITIVE_MSG);
+        return isPositive(iNum, null);
     }
 
     /**
@@ -58,7 +58,7 @@ public class NumberValidator {
      * @see #isPositive(long, String)
      */
     public static long isPositive(long lNum) {
-        return isPositive(lNum, DEFAULT_NON_POSITIVE_MSG);
+        return isPositive(lNum, null);
     }
 
     /**
@@ -70,7 +70,7 @@ public class NumberValidator {
      * @see #isPositive(double, String)
      */
     public static double isPositive(double dNum) {
-        return isPositive(dNum, DEFAULT_NON_POSITIVE_MSG);
+        return isPositive(dNum, null);
     }
 
     /**
@@ -82,7 +82,7 @@ public class NumberValidator {
      * @see #isPositive(float, String)
      */
     public static float isPositive(float fNum) {
-        return isPositive(fNum, DEFAULT_NON_POSITIVE_MSG);
+        return isPositive(fNum, null);
     }
 
     /**
@@ -189,7 +189,7 @@ public class NumberValidator {
      * @see #nonNegative(byte, String)
      */
     public static byte nonNegative(byte bNum) {
-        return nonNegative(bNum, DEFAULT_NEGATIVE_MSG);
+        return nonNegative(bNum, null);
     }
 
     /**
@@ -201,7 +201,7 @@ public class NumberValidator {
      * @see #nonNegative(short, String)
      */
     public static short nonNegative(short sNum) {
-        return nonNegative(sNum, DEFAULT_NEGATIVE_MSG);
+        return nonNegative(sNum, null);
     }
 
     /**
@@ -213,7 +213,7 @@ public class NumberValidator {
      * @see #nonNegative(int, String)
      */
     public static int nonNegative(int iNum) {
-        return nonNegative(iNum, DEFAULT_NEGATIVE_MSG);
+        return nonNegative(iNum, null);
     }
 
     /**
@@ -225,7 +225,7 @@ public class NumberValidator {
      * @see #nonNegative(long, String)
      */
     public static long nonNegative(long lNum) {
-        return nonNegative(lNum, DEFAULT_NEGATIVE_MSG);
+        return nonNegative(lNum, null);
     }
 
     /**
@@ -237,7 +237,7 @@ public class NumberValidator {
      * @see #nonNegative(double, String)
      */
     public static double nonNegative(double dNum) {
-        return nonNegative(dNum, DEFAULT_NEGATIVE_MSG);
+        return nonNegative(dNum, null);
     }
 
     /**
@@ -249,7 +249,7 @@ public class NumberValidator {
      * @see #nonNegative(float, String)
      */
     public static float nonNegative(float fNum) {
-        return nonNegative(fNum, DEFAULT_NEGATIVE_MSG);
+        return nonNegative(fNum, null);
     }
 
     /**
@@ -262,7 +262,7 @@ public class NumberValidator {
      */
     public static byte nonNegative(byte bNum, String message) {
         if (bNum < 0) {
-            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NON_POSITIVE_MSG));
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
         }
         return bNum;
     }
@@ -277,7 +277,7 @@ public class NumberValidator {
      */
     public static short nonNegative(short sNum, String message) {
         if (sNum < 0) {
-            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NON_POSITIVE_MSG));
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
         }
         return sNum;
     }
@@ -292,7 +292,7 @@ public class NumberValidator {
      */
     public static int nonNegative(int iNum, String message) {
         if (iNum < 0) {
-            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NON_POSITIVE_MSG));
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
         }
         return iNum;
     }
@@ -307,7 +307,7 @@ public class NumberValidator {
      */
     public static long nonNegative(long lNum, String message) {
         if (lNum < 0) {
-            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NON_POSITIVE_MSG));
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
         }
         return lNum;
     }
@@ -322,7 +322,7 @@ public class NumberValidator {
      */
     public static double nonNegative(double dNum, String message) {
         if (dNum < 0) {
-            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NON_POSITIVE_MSG));
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
         }
         return dNum;
     }
@@ -337,7 +337,7 @@ public class NumberValidator {
      */
     public static float nonNegative(float fNum, String message) {
         if (fNum < 0) {
-            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NON_POSITIVE_MSG));
+            throw new IllegalArgumentException(StringValidator.defaultStringIfNull(message, DEFAULT_NEGATIVE_MSG));
         }
         return fNum;
     }
