@@ -25,3 +25,9 @@ hs_err_pid*
 # IntelliJ files
 .idea
 output/
+
+#Maven files
+target/
+
+#JavaDocs
+javadocs/
