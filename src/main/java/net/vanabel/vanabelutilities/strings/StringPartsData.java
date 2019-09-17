@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2019 Vang "MusicScore" Ngo
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package net.vanabel.vanabelutilities.strings;
 
 import net.vanabel.vanabelutilities.validator.ObjectValidator;
@@ -5,7 +27,8 @@ import net.vanabel.vanabelutilities.validator.ObjectValidator;
 import java.util.*;
 
 /**
- * A helper class to hold the parts of a splitted String from the various {@code splitString(...)} methods from {@link StringUtils}.
+ * A helper class to hold the parts of a split String from the various {@code splitString(...)} methods from
+ * {@link StringUtils}.
  */
 public class StringPartsData {
 
@@ -59,8 +82,10 @@ public class StringPartsData {
     /**
      * Adds a new String at the specified index of the list of parts.
      * @param index The index to add the new part at.
-     *              If the index is less than 0, then the part is added to the beginning of the list of parts.
-     *              If the index is greater than or equal to the output of {@link #size()}, then the part will be added to the end of the list of parts.
+     *              <br>If the index is <b>less than 0</b>, then the part is added to the beginning of the list of
+     *              parts.
+     *              <br>If the index is <b>greater than or equal to the output of {@link #size()}</b>, then the part
+     *              will be added to the end of the list of parts.
      * @param part The String to add
      */
     public void insertPart(int index, String part) {
@@ -112,6 +137,19 @@ public class StringPartsData {
         return data.get(index);
     }
 
+    /**
+     * Deletes all empty Strings from the list of parts.
+     */
+    public void purgeEmptyParts() {
+        List<String> newData = new ArrayList<>();
+        for (String part : data) {
+            if (!part.isEmpty()) {
+                newData.add(part);
+            }
+        }
+        data = newData;
+    }
+
 
     ////////////////////////////////////////
     //   Collection-like methods
@@ -155,8 +193,8 @@ public class StringPartsData {
      * Returns the list of parts as a Map, where each part is an entry.
      * @param separator The character to use as the separator between key and value in a given part
      * @return A Map where each part is an entry, and each entry's key is a String.
-     *         If the part does not have the specified character, then the entry's value will be null.
-     *         Otherwise, the entry's value will be the second half of the string after the specified character.
+     *         <br>If the part does not have the specified character, then the entry's value will be null.
+     *         <br>Otherwise, the entry's value will be the second half of the string after the specified character.
      */
     public Map<String, String> asMap(char separator) {
         Map<String, String> strMap = new HashMap<>();
@@ -169,13 +207,14 @@ public class StringPartsData {
 
 
     ////////////////////////////////////////
-    //   Splitted-to-single string methods
+    //   Split-to-single string methods
     //////////////////////////////////////
 
     /**
      * Returns every single part put together with nothing in between each part.
      * @return A String with every part in order, with nothing in between each part.
-     *         For example, if this StringPartsData has the parts {@code "Hello"}, {@code "world"}, and {@code " !"} in that order, then the output will be {@code "Helloworld !"}.
+     *         <br>For example, if this StringPartsData has the parts {@code "Hello"}, {@code "world"}, and
+     *         {@code " !"} in that order, then the output will be {@code "Helloworld !"}.
      */
     public String asSingleString() {
         if (size() == 1) {
@@ -193,7 +232,8 @@ public class StringPartsData {
      * Returns every single part as a single String, with a specified String {@code separator} in between each part.
      * @param separator The String to use to separate each part in the final output
      * @return A String with every part in order, with the specified additional String between each part.
-     *         For example, if this StringPartsData has the parts {@code "Hello"}, {@code "world"}, and {@code " !"} and the separator was {@code "==>"}, then the output will be {@code "Hello==>world==> !"}.
+     *         <br>For example, if this StringPartsData has the parts {@code "Hello"}, {@code "world"}, and
+     *         {@code " !"} and the separator was {@code "==>"}, then the output will be {@code "Hello==>world==> !"}.
      */
     public String asSingleStringWithSeparator(String separator) {
         if (size() == 1) {
@@ -212,7 +252,8 @@ public class StringPartsData {
      * Returns every single part as a single String, with a specified character {@code separator} in between each part.
      * @param separator The character to use to separate each part in the final output
      * @return A String with every part in order, with the specified character between each part.
-     *         For example, if this StringPartsData has the parts {@code "Hello"}, {@code "world"}, and {@code " !"} and the separator was {@code 'x'}, then the output will be {@code "Helloxworldx !"}.
+     *         <br>For example, if this StringPartsData has the parts {@code "Hello"}, {@code "world"}, and
+     *         {@code " !"} and the separator was {@code 'x'}, then the output will be {@code "Helloxworldx !"}.
      */
     public String asSingleStringWithSeparator(char separator) {
         if (size() == 1) {

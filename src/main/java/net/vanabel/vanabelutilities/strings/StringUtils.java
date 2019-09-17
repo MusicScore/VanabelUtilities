@@ -1,13 +1,36 @@
+/*
+ * Copyright (c) 2019 Vang "MusicScore" Ngo
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package net.vanabel.vanabelutilities.strings;
 
 import net.vanabel.vanabelutilities.validator.NumberValidator;
+import net.vanabel.vanabelutilities.validator.StringValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * A class that holds a collection of methods that are used for manipulating strings in various ways.
+ * A class that holds a collection of static methods that are used for manipulating strings in various ways.
  */
 public class StringUtils {
 
@@ -17,8 +40,8 @@ public class StringUtils {
     //////////////////////////////////////
 
     /**
-     * An enumerated list of all English articles.
-     * None of these words should be capitalized in title-cased strings, unless the article begins the title.
+     * An enumerated list of all English articles. None of these words should be capitalized in title-cased strings,
+     * unless the article begins the title.
      */
     public enum Article {
         /**
@@ -33,7 +56,8 @@ public class StringUtils {
          * Returns the Article that matches (case-insensitive) with the string input.
          * If the string input is not an article, then {@link Article#INVALID} will be returned.
          * @param str The string that is being matched against the enumerated list of English articles
-         * @return {@link Article#INVALID} if the string is empty, contains whitespace, or is not an English article; the correct Article otherwise
+         * @return {@link Article#INVALID} if the string is empty, contains whitespace, or is not an English article;
+         *         the correct Article otherwise
          */
         public static Article getEnumFor(String str) {
             if (str == null || hasWhitespace(str)) {
@@ -132,7 +156,8 @@ public class StringUtils {
          * Returns the Conjunction that matches (case-insensitive) with the string input.
          * If the string input is not a conjugation, then {@link Conjunction#INVALID} will be returned.
          * @param str The string that is being matched against the enumerated list of English conjunctions
-         * @return {@link Conjunction#INVALID} if the string is empty, contains whitespace, or is not an English conjunction; the correct Conjunction otherwise
+         * @return {@link Conjunction#INVALID} if the string is empty, contains whitespace, or is not an English
+         *         conjunction; the correct Conjunction otherwise
          */
         public static Conjunction getEnumFor(String str) {
             if (str == null || hasWhitespace(str)) {
@@ -150,9 +175,11 @@ public class StringUtils {
     /**
      * An enumerated list of all English prepositional words currently known to the API.
      * No complex prepositional phrases will be included.
-     * The following words will not be included in this list, as they are also widely used as non-prepositional words:
-     * "CONCERNING", "CONSIDERING", "COUNTING", "DOWN", "EXCEPTING", "EXCLUDING", "FOLLOWING", "GIVEN", "GONE" (British), "INCLUDING", "INSIDE",
-     * "OFF", "OPPOSITE", "OUTSIDE", "PAST", "PRO", "RESPECTING", "ROUND", "SAVE", "SAVING", "TOUCHING", "WORTH"
+     * <br><br>The following words will not be included in this list, as they are also widely used as
+     * non-prepositional words:
+     * <br>"CONCERNING", "CONSIDERING", "COUNTING", "DOWN", "EXCEPTING", "EXCLUDING", "FOLLOWING", "GIVEN",
+     * "GONE" (British), "INCLUDING", "INSIDE", "OFF", "OPPOSITE", "OUTSIDE", "PAST", "PRO", "RESPECTING",
+     * "ROUND", "SAVE", "SAVING", "TOUCHING", "WORTH"
      */
     public enum Preposition {
         /**
@@ -306,7 +333,8 @@ public class StringUtils {
          * Returns the Preposition that matches (case-insensitive) with the string input.
          * If the string input is not a preposition, then {@link Preposition#INVALID} will be returned.
          * @param str The string that is being matched against the enumerated list of English prepositions
-         * @return {@link Preposition#INVALID} if the string is empty, contains whitespace, or is not an English preposition; the correct Preposition otherwise
+         * @return {@link Preposition#INVALID} if the string is empty, contains whitespace, or is not an English
+         *         preposition; the correct Preposition otherwise
          */
         public static Preposition getEnumFor(String str) {
             if (str == null || hasWhitespace(str)) {
@@ -327,10 +355,11 @@ public class StringUtils {
     //////////////////////////////////////
 
     /**
-     * Converts a String to a strict title format. Automatically trims the String.
-     * If there are any extra capitalized characters in any given word, those characters will be lowercased.
+     * Converts a String to a strict title-case format. Automatically trims the String.
+     * <br>If there are any extra capitalized characters in any given word, those characters will be lower-cased.
+     * <br>If there are any extra space characters between words, those spaces will be deleted.
      * @param str The String to format like a title
-     * @return The String in proper title format
+     * @return The String in proper title-case format
      * @see #toTitleCase(String, boolean)
      */
     public static String toTitleCase(String str) {
@@ -338,13 +367,16 @@ public class StringUtils {
     }
 
     /**
-     * Converts a String to title format. Automatically trims the String.
+     * Converts a String to title-case format. Automatically trims the String.
      * @param str The String to format like a title
-     * @param strict Whether to convert every character to lowercase if it is not the first character in any given word
-     * @return The String in title format
+     * @param strict Whether to convert the entire string to lowercase first before performing the to-title-case
+     *               conversion AND delete any extra spaces between words
+     * @return The String in title-case format
      * @see #toTitleCase(String)
      */
     public static String toTitleCase(String str, boolean strict) {
+        StringValidator.isNotNull(str);
+
         str = str.trim();
         if (str.isEmpty()) {
             return "";
@@ -353,14 +385,23 @@ public class StringUtils {
             return str.toUpperCase();
         }
 
-        StringBuilder output = new StringBuilder();
-        List<String> partsOriginal = splitString(strict ? str.toLowerCase() : str, ' ').asList();
+        List<String> partsOriginal;
+        if (strict) {
+            StringPartsData tempData = splitString(str.toLowerCase(), ' ');
+            tempData.purgeEmptyParts();
+            partsOriginal = tempData.asList();
+        }
+        else {
+            partsOriginal = splitString(str, ' ').asList();
+        }
+
         List<String> partsUppercase = splitString(str.toUpperCase(), ' ').asList();
 
         if (partsOriginal.size() == 1) {
             return partsUppercase.get(0).charAt(0) + partsOriginal.get(0).substring(1);
         }
 
+        StringBuilder output = new StringBuilder();
         output.append(partsUppercase.get(0).charAt(0)).append(partsOriginal.get(0).substring(1));
         for (int i = 1; i < partsOriginal.size(); i++) {
             output.append(" ");
@@ -386,10 +427,12 @@ public class StringUtils {
      * If the second String does not exist in the first String, the first String is returned.
      * @param str The String to truncate
      * @param after The String the truncation is based off of
-     * @return A substring of the first String, which contains every character after the first instance of the second String
+     * @return A substring of the first String, which contains every character after the first instance of the
+     *         second String
      */
     public static String after(String str, String after) {
-        if (!contains(str, after, true)) {
+        StringValidator.isNotNull(str);
+        if (after == null || !contains(str, after, true)) {
             return str;
         }
         return str.substring(str.indexOf(after) + after.length());
@@ -400,10 +443,12 @@ public class StringUtils {
      * If the second String does not exist in the first String, the first String is returned.
      * @param str The String to truncate
      * @param after The String the truncation is based off of
-     * @return A substring of the first String, which contains every character after the last instance of the second String
+     * @return A substring of the first String, which contains every character after the last instance of the
+     *         second String
      */
     public static String afterLast(String str, String after) {
-        if (!contains(str, after, true)) {
+        StringValidator.isNotNull(str);
+        if (after == null || !contains(str, after, true)) {
             return str;
         }
         return str.substring(str.lastIndexOf(after) + after.length());
@@ -414,10 +459,12 @@ public class StringUtils {
      * If the second String does not exist in the first String, the first String is returned.
      * @param str The String to truncate
      * @param before The String the truncation is based off of
-     * @return A substring of the first String, which contains every character before the first instance of the second String
+     * @return A substring of the first String, which contains every character before the first instance of the
+     *         second String
      */
     public static String before(String str, String before) {
-        if (!contains(str, before, true)) {
+        StringValidator.isNotNull(str);
+        if (before == null || !contains(str, before, true)) {
             return str;
         }
         return str.substring(0, str.indexOf(before));
@@ -428,10 +475,12 @@ public class StringUtils {
      * If the second String does not exist in the first String, the first String is returned.
      * @param str The String to truncate
      * @param before The String the truncation is based off of
-     * @return A substring of the first String, which contains every character before the last instance of the second String
+     * @return A substring of the first String, which contains every character before the last instance of the
+     *         second String
      */
     public static String beforeLast(String str, String before) {
-        if (!contains(str, before, true)) {
+        StringValidator.isNotNull(str);
+        if (before == null || !contains(str, before, true)) {
             return str;
         }
         return str.substring(0, str.lastIndexOf(before));
@@ -470,6 +519,8 @@ public class StringUtils {
      * @return A {@link StringPartsData} containing a list of Strings
      */
     public static StringPartsData splitString(String str, char splitter) {
+        StringValidator.isNotNull(str);
+
         StringPartsData output = new StringPartsData();
         int s = 0;
         for (int i = 0; i < str.length(); i++) {
@@ -490,6 +541,8 @@ public class StringUtils {
      * @return A {@link StringPartsData} containing a list of Strings
      */
     public static StringPartsData splitString(String str, char splitter, int maxParts) {
+        StringValidator.isNotNull(str);
+
         NumberValidator.isPositive(maxParts);
 
         StringPartsData output = new StringPartsData();
@@ -513,6 +566,7 @@ public class StringUtils {
      * @return A List of Character objects that consists of every character in the original String
      */
     public static List<Character> toCharList(String str) {
+        StringValidator.isNotNull(str);
         List<Character> output = new ArrayList<>();
         for (char character : str.toCharArray()) {
             output.add(character);
@@ -527,13 +581,19 @@ public class StringUtils {
 
     /**
      * Returns whether the first String contains the second String.
-     * <b>NOTE:</b> If you want to perform a similar operation with case sensitivity, you can also just use {@link String#contains(CharSequence)}.
+     * <br><br><b>NOTE:</b> If you want to perform a similar operation with case sensitivity, you can also just
+     * use {@link String#contains(CharSequence)}.
      * @param str The first String
      * @param searchFor The String that's being searched for in the first String
      * @param caseSensitive Whether the search should be case sensitive
      * @return True if the second String can be found in the first String, false otherwise
      */
     public static boolean contains(String str, String searchFor, boolean caseSensitive) {
+        StringValidator.isNotNull(str);
+        if (searchFor == null) {
+            return true;
+        }
+
         if (!caseSensitive) {
             str = str.toLowerCase();
             searchFor = searchFor.toLowerCase();
@@ -547,6 +607,7 @@ public class StringUtils {
      * @return True if the String has any whitespace characters in it, false otherwise
      */
     public static boolean hasWhitespace(String str) {
+        StringValidator.isNotNull(str);
         Pattern pattern = Pattern.compile("\\s");
         return str.isEmpty() || pattern.matcher(str).find();
     }
