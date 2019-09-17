@@ -611,4 +611,78 @@ public class StringUtils {
         Pattern pattern = Pattern.compile("\\s");
         return str.isEmpty() || pattern.matcher(str).find();
     }
+
+    /**
+     * If the String's length is less than the specified minimum length, pads the String to the left with the
+     * specified character.
+     * @param str The String to pad
+     * @param minLength The minimum length required of the String
+     * @param padChar The character to use as padding
+     * @return The String with the specified character padding left, or the String if the String's length is equal to
+     *         or greater than the minimum specified length
+     * @see #padRight(String, int, char)
+     */
+    public static String padLeft(String str, int minLength, char padChar) {
+        StringValidator.isNotNull(str);
+        if (str.length() >= minLength) {
+            return str;
+        }
+
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < minLength - str.length(); i++) {
+            output.append(padChar);
+        }
+        return output.append(str).toString();
+    }
+
+    /**
+     * If the String's length is less than the specified minimum length, pads the String to the right with the
+     * specified character.
+     * @param str The String to pad
+     * @param minLength The minimum length required of the String
+     * @param padChar The character to use as padding
+     * @return The String with the specified character padding right, or the String if the String's length is equal to
+     *         or greater than the minimum specified length
+     * @see #padLeft(String, int, char)
+     */
+    public static String padRight(String str, int minLength, char padChar) {
+        StringValidator.isNotNull(str);
+        if (str.length() >= minLength) {
+            return str;
+        }
+
+        StringBuilder output = new StringBuilder(str);
+        for (int i = 0; i < minLength - str.length(); i++) {
+            output.append(padChar);
+        }
+        return output.toString();
+    }
+
+    /**
+     * Returns a String, removing any instances of the trailing or leading character.
+     * <br>For example, trimming 'a' from "aaaHello world!a" will return "Hello world!"
+     * <br><br><b>NOTE:</b> If you just want to trim whitespace, you can use {@link String#trim()} instead.
+     * @param str The String to trim
+     * @param chr The character to remove
+     * @return The trimmed String
+     */
+    public static String trim(String str, char chr) {
+        StringValidator.isNotNull(str);
+
+        int start = 0;
+        int end = str.length();
+        for (int i = 0; i < str.length(); i++) {
+            start = i;
+            if (str.charAt(i) != chr) {
+                break;
+            }
+        }
+        for (int i = str.length() - 1; i >= 0; i--) {
+            end = i + 1;
+            if (str.charAt(i) != chr) {
+                break;
+            }
+        }
+        return str.substring(start, end);
+    }
 }
