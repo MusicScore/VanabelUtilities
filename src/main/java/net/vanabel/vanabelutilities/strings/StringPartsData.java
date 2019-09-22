@@ -29,6 +29,7 @@ import java.util.*;
 /**
  * A helper class to hold the parts of a split String from the various {@code splitString(...)} methods from
  * {@link StringUtils}.
+ * <br><br>Depends on {@link ObjectValidator}.
  */
 public class StringPartsData {
 

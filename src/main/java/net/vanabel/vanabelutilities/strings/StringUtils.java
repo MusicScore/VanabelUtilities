@@ -23,6 +23,7 @@
 package net.vanabel.vanabelutilities.strings;
 
 import net.vanabel.vanabelutilities.validator.NumberValidator;
+import net.vanabel.vanabelutilities.validator.ObjectValidator;
 import net.vanabel.vanabelutilities.validator.StringValidator;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 
 /**
  * A class that holds a collection of static methods that are used for manipulating strings in various ways.
+ * <br><br>Depends on {@link NumberValidator}, {@link ObjectValidator}, and {@link StringValidator}.
  */
 public class StringUtils {
 
@@ -375,7 +377,7 @@ public class StringUtils {
      * @see #toTitleCase(String)
      */
     public static String toTitleCase(String str, boolean strict) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
 
         str = str.trim();
         if (str.isEmpty()) {
@@ -431,7 +433,7 @@ public class StringUtils {
      *         second String
      */
     public static String after(String str, String after) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (after == null || !contains(str, after, true)) {
             return str;
         }
@@ -447,7 +449,7 @@ public class StringUtils {
      *         second String
      */
     public static String afterLast(String str, String after) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (after == null || !contains(str, after, true)) {
             return str;
         }
@@ -463,7 +465,7 @@ public class StringUtils {
      *         second String
      */
     public static String before(String str, String before) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (before == null || !contains(str, before, true)) {
             return str;
         }
@@ -479,7 +481,7 @@ public class StringUtils {
      *         second String
      */
     public static String beforeLast(String str, String before) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (before == null || !contains(str, before, true)) {
             return str;
         }
@@ -519,7 +521,7 @@ public class StringUtils {
      * @return A {@link StringPartsData} containing a list of Strings
      */
     public static StringPartsData splitString(String str, char splitter) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
 
         StringPartsData output = new StringPartsData();
         int s = 0;
@@ -541,7 +543,7 @@ public class StringUtils {
      * @return A {@link StringPartsData} containing a list of Strings
      */
     public static StringPartsData splitString(String str, char splitter, int maxParts) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
 
         NumberValidator.isPositive(maxParts);
 
@@ -566,7 +568,7 @@ public class StringUtils {
      * @return A List of Character objects that consists of every character in the original String
      */
     public static List<Character> toCharList(String str) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         List<Character> output = new ArrayList<>();
         for (char character : str.toCharArray()) {
             output.add(character);
@@ -589,7 +591,7 @@ public class StringUtils {
      * @return True if the second String can be found in the first String, false otherwise
      */
     public static boolean contains(String str, String searchFor, boolean caseSensitive) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (searchFor == null) {
             return true;
         }
@@ -607,7 +609,7 @@ public class StringUtils {
      * @return True if the String has any whitespace characters in it, false otherwise
      */
     public static boolean hasWhitespace(String str) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         Pattern pattern = Pattern.compile("\\s");
         return str.isEmpty() || pattern.matcher(str).find();
     }
@@ -623,7 +625,7 @@ public class StringUtils {
      * @see #padRight(String, int, char)
      */
     public static String padLeft(String str, int minLength, char padChar) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (str.length() >= minLength) {
             return str;
         }
@@ -646,7 +648,7 @@ public class StringUtils {
      * @see #padLeft(String, int, char)
      */
     public static String padRight(String str, int minLength, char padChar) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
         if (str.length() >= minLength) {
             return str;
         }
@@ -667,7 +669,7 @@ public class StringUtils {
      * @return The trimmed String
      */
     public static String trim(String str, char chr) {
-        StringValidator.isNotNull(str);
+        ObjectValidator.isNotNull(str);
 
         int start = 0;
         int end = str.length();

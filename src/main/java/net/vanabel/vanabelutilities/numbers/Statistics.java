@@ -29,6 +29,7 @@ import java.util.*;
 
 /**
  * A class that holds a collection of static methods that are used for common statistical calculations.
+ * <br><br>Depends on {@link ArrayValidator} and {@link ObjectValidator}.
  */
 public class Statistics {
 

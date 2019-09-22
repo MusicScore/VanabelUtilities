@@ -25,7 +25,7 @@ package net.vanabel.vanabelutilities.validator;
 /**
  * A class that holds a collection of static methods that are used for validating various cases regarding String-like objects.
  */
-public class StringValidator extends ObjectValidator {
+public class StringValidator {
 
     ////////////////////////////////////////
     //   Static fields
