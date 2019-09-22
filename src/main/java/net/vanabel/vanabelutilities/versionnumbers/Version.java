@@ -272,7 +272,6 @@ public class Version {
     private DevelopmentStage devStage;
 
     private boolean isSubVer = false;
-    private String subverName = "";
 
     private List<GenericPair<String, Version>> subverList = new ArrayList<>();
 
@@ -561,7 +560,7 @@ public class Version {
      * @return A String representing this entire Version, including all of its subversions.
      */
     public String getFullVersionNumber() {
-        return getFullVersionNumber(isSubVer ? subverName : "v", true);
+        return getFullVersionNumber("v", true);
     }
 
     @Override
