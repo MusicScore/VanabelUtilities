@@ -353,8 +353,13 @@ public class StringUtils {
 
 
     ////////////////////////////////////////
-    //   Title-case methods
+    //   Capitalization methods
     //////////////////////////////////////
+
+    public static String capitalize(String str) {
+        StringValidator.isNotEmpty(str);
+        return str.charAt(0) + (str.length() > 1 ? str.substring(1) : "");
+    }
 
     /**
      * Converts a String to a strict title-case format. Automatically trims the String.
@@ -387,34 +392,32 @@ public class StringUtils {
             return str.toUpperCase();
         }
 
-        List<String> partsOriginal;
+        List<String> stringParts;
         if (strict) {
             StringPartsData tempData = splitString(str.toLowerCase(), ' ');
             tempData.purgeEmptyParts();
-            partsOriginal = tempData.asList();
+            stringParts = tempData.asList();
         }
         else {
-            partsOriginal = splitString(str, ' ').asList();
-        }
-
-        List<String> partsUppercase = splitString(str.toUpperCase(), ' ').asList();
-
-        if (partsOriginal.size() == 1) {
-            return partsUppercase.get(0).charAt(0) + partsOriginal.get(0).substring(1);
+            stringParts = splitString(str, ' ').asList();
         }
 
         StringBuilder output = new StringBuilder();
-        output.append(partsUppercase.get(0).charAt(0)).append(partsOriginal.get(0).substring(1));
-        for (int i = 1; i < partsOriginal.size(); i++) {
+        output.append(capitalize(stringParts.get(0)));
+        if (stringParts.size() == 1) {
+            return output.toString();
+        }
+
+        for (int i = 1; i < stringParts.size(); i++) {
             output.append(" ");
 
-            String part = partsOriginal.get(i);
+            String part = stringParts.get(i);
             if (part.length() <= 1 || Article.getEnumFor(part) != Article.INVALID
                     || !Conjunction.getEnumFor(str).isTitleCased() || !Preposition.getEnumFor(str).isTitleCased()) {
                 output.append(part);
                 continue;
             }
-            output.append(partsUppercase.get(i).charAt(0)).append(part.substring(1));
+            output.append(capitalize(stringParts.get(1)));
         }
         return output.toString();
     }
